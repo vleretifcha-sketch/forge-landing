@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ForgeLogo } from "@/components/landing/icons";
-import { Asset, Button, cx } from "@/components/landing/ui";
+import { ActionButton, Asset, Button, cx } from "@/components/landing/ui";
 
 const LINKS = [
   { href: "#features", label: "Features" },
@@ -47,6 +47,58 @@ export function FooterBlur() {
     <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 h-[180px]">
       <ProgressiveBlur edge="bottom" />
     </div>
+  );
+}
+
+function WatchDemo() {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previous;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <>
+      <ActionButton type="button" variant="ghost-dark" className="w-full md:w-auto" onClick={() => setOpen(true)}>
+        <Asset src="/icons/play.svg" alt="" width={24} height={24} />
+        Watch demo
+      </ActionButton>
+      {open ? (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/75 p-5"
+          onClick={() => setOpen(false)}
+          role="presentation"
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Forge demo"
+            className="relative w-full max-w-[1100px] overflow-hidden rounded-2xl bg-black shadow-[0_24px_80px_rgba(0,0,0,0.45)]"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              aria-label="Close demo"
+              className="absolute right-3 top-3 z-10 flex size-10 items-center justify-center rounded-full bg-white text-xl font-bold text-ink"
+              onClick={() => setOpen(false)}
+            >
+              ×
+            </button>
+            <video src="/videos/demo.mp4" controls autoPlay playsInline className="max-h-[85vh] w-full bg-black" />
+          </div>
+        </div>
+      ) : null}
+    </>
   );
 }
 
@@ -164,10 +216,7 @@ export function Hero() {
           </p>
 
           <div className="flex w-full flex-col gap-4 md:w-auto md:flex-row md:flex-wrap md:items-center md:justify-center">
-            <Button href="#product" variant="ghost-dark" className="w-full md:w-auto">
-              <Asset src="/icons/play.svg" alt="" width={24} height={24} />
-              Watch demo
-            </Button>
+            <WatchDemo />
             <Button href="#contact" variant="solid-white" className="w-full md:w-auto">
               Get your own app
             </Button>
