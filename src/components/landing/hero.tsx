@@ -1,0 +1,177 @@
+"use client";
+
+import { useState } from "react";
+import { ForgeLogo } from "@/components/landing/icons";
+import { Asset, Button, cx } from "@/components/landing/ui";
+
+const LINKS = [
+  { href: "#features", label: "Features" },
+  { href: "#use-case", label: "Use Case" },
+  { href: "#testimonials", label: "Testimonial" },
+  { href: "#pricing", label: "Pricing" },
+];
+
+const BLUR_LAYERS = [
+  { blur: 1, stops: "#000 0%, #000 40%, transparent 100%" },
+  { blur: 2, stops: "#000 0%, #000 25%, transparent 70%" },
+  { blur: 4, stops: "#000 0%, #000 16%, transparent 50%" },
+  { blur: 8, stops: "#000 0%, #000 10%, transparent 36%" },
+  { blur: 16, stops: "#000 0%, #000 6%, transparent 22%" },
+  { blur: 32, stops: "#000 0%, transparent 12%" },
+];
+
+function ProgressiveBlur({ edge }: { edge: "top" | "bottom" }) {
+  const dir = edge === "top" ? "to bottom" : "to top";
+
+  return (
+    <div className={cx("progressive-blur", edge === "bottom" && "progressive-blur-bottom")} aria-hidden>
+      {BLUR_LAYERS.map((layer) => {
+        const mask = `linear-gradient(${dir}, ${layer.stops})`;
+        return (
+          <span
+            key={layer.blur}
+            style={{
+              backdropFilter: `blur(${layer.blur}px)`,
+              WebkitBackdropFilter: `blur(${layer.blur}px)`,
+              maskImage: mask,
+              WebkitMaskImage: mask,
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+export function FooterBlur() {
+  return (
+    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 h-[180px]">
+      <ProgressiveBlur edge="bottom" />
+    </div>
+  );
+}
+
+export function Header({ onDark = true }: { onDark?: boolean }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <header className="fixed inset-x-0 top-0 z-50">
+      <ProgressiveBlur edge="top" />
+      <div className="relative mx-auto flex w-full max-w-[1728px] justify-center px-5 pt-[48px] md:px-[80px] md:pt-[75px]">
+        <div className="relative flex w-full max-w-[1125px] items-center justify-between gap-3">
+          <a
+            href="#top"
+            aria-label="Forge"
+            className="flex h-12 shrink-0 items-center rounded-xl bg-white px-3.5 text-ink"
+          >
+            <ForgeLogo className="h-4 w-auto" />
+          </a>
+
+          <nav className="hidden h-12 items-center gap-8 rounded-xl bg-white px-6 font-bold tracking-[-0.32px] text-ink md:flex">
+            {LINKS.map((link) => (
+              <a key={link.href} href={link.href} className="text-base hover:opacity-70">
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <Button
+              href="#faq"
+              variant={onDark ? "ghost-dark" : "ghost-light"}
+              className={cx(onDark && "shadow-none")}
+            >
+              Contact
+            </Button>
+            <button
+              type="button"
+              className="flex size-12 items-center justify-center rounded-xl bg-white md:hidden"
+              aria-label="Open menu"
+              onClick={() => setOpen((v) => !v)}
+            >
+              <span className="font-bold text-ink">{open ? "×" : "☰"}</span>
+            </button>
+          </div>
+
+          {open ? (
+            <div className="absolute left-0 right-0 top-14 flex flex-col gap-2 rounded-2xl bg-white p-4 md:hidden">
+              {LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="rounded-xl px-3 py-2 text-base font-bold text-ink"
+                  onClick={() => setOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </header>
+  );
+}
+
+export function Hero() {
+  return (
+    <section id="top" className="relative flex min-h-[100svh] flex-col overflow-hidden bg-ink">
+      <div className="pointer-events-none absolute inset-x-0 bottom-[-80px] h-[70%] overflow-hidden">
+        <img
+          src="/images/hero-glow.svg"
+          alt=""
+          className="absolute left-1/2 top-0 h-full w-[140%] max-w-none -translate-x-1/2"
+        />
+      </div>
+
+      <div className="relative mx-auto flex w-full max-w-[1728px] flex-1 flex-col items-center px-5 pt-[48px] md:px-[80px] md:pt-[75px]">
+        <div className="h-12 w-full max-w-[1125px] shrink-0" aria-hidden />
+
+        <div className="hero-copy my-auto flex max-w-[938px] flex-col items-center gap-6 py-16 md:gap-8 md:py-24">
+          <div className="flex items-center gap-3 rounded-full border border-white/24 bg-white/12 py-1 pr-3 pl-1">
+            <div className="flex h-6 w-12 items-center justify-center rounded-full bg-blue-badge">
+              <span className="font-[family-name:var(--font-cabinet)] text-base font-bold tracking-[-0.32px] text-white">
+                New
+              </span>
+            </div>
+            <p className="text-sm font-medium tracking-[-0.28px] text-white">A better way to coach</p>
+          </div>
+
+          <h1 className="font-[family-name:var(--font-cabinet)] text-center text-[44px] font-medium leading-none tracking-[-1.92px] text-white md:text-[72px] lg:text-[96px]">
+            Your athletes deserve one place. Not five.
+          </h1>
+
+          <p className="max-w-[600px] text-center text-lg font-medium tracking-[-0.48px] text-white/60 md:text-2xl">
+            Replace the spreadsheets, the shared docs, and the five different apps — with one platform that&apos;s
+            actually yours.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Button href="#product" variant="ghost-dark">
+              <Asset src="/icons/play.svg" alt="" width={24} height={24} />
+              Watch demo
+            </Button>
+            <Button href="mailto:hello@forge.app" variant="solid-white">
+              Get your own app
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="product"
+        className="relative mx-auto w-[min(1480px,86vw)] max-h-[min(38vh,460px)] shrink-0 overflow-hidden rounded-t-[30px] bg-white p-2.5 pb-0 md:p-3 md:pb-0"
+      >
+        <div className="hero-dashboard relative overflow-hidden rounded-t-[20px]" style={{ aspectRatio: "3306 / 1073" }}>
+          <img
+            src="/images/dashboard.png"
+            alt="Forge coach dashboard"
+            width={1900}
+            height={1233}
+            className="absolute inset-0 h-[200%] w-full max-w-none object-cover object-top"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}

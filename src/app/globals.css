@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #0f1115;
+  --page: #f7f7f7;
+  --muted: #484d4d;
+  --chip: #e8e8e8;
+  --blue: #0023ff;
+  --blue-badge: #002aff;
+  --blue-mail: #0b2cff;
+}
+
+@theme inline {
+  --font-sans: var(--font-satoshi), "Satoshi", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-cabinet), "Cabinet Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --color-ink: var(--ink);
+  --color-page: var(--page);
+  --color-muted: var(--muted);
+  --color-chip: var(--chip);
+  --color-blue: var(--blue);
+  --color-blue-badge: var(--blue-badge);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 120px;
+}
+
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-satoshi), "Satoshi", system-ui, sans-serif;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+a {
+  font-family: inherit;
+}
+
+.progressive-blur {
+  pointer-events: none;
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 180px;
+}
+
+.progressive-blur-bottom {
+  top: auto;
+  bottom: 0;
+}
+
+.progressive-blur span {
+  position: absolute;
+  inset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .marquee-track {
+    animation: none !important;
+  }
+}
+
+@property --marquee-p {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --marquee-shift {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@keyframes marquee-progress {
+  from {
+    --marquee-p: 0;
+  }
+  to {
+    --marquee-p: 1;
+  }
+}
+
+.marquee-track {
+  transform: translate3d(calc(var(--marquee-shift) * var(--marquee-p)), 0, 0);
+  animation-name: marquee-progress;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}
