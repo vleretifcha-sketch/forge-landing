@@ -1,5 +1,7 @@
 export const CONTACT_INBOX = process.env.NEXT_PUBLIC_CONTACT_TO ?? "gustdesign.agency@gmail.com";
 
+export const INTERESTS = ["founding", "multi"] as const;
+
 export type Interest = (typeof INTERESTS)[number];
 
 export type ContactPayload = {
