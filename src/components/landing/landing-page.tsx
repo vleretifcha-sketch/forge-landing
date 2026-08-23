@@ -4,12 +4,13 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ContactSection } from "@/components/landing/contact";
 import { FaqSection } from "@/components/landing/faq";
 import { FeaturesSection } from "@/components/landing/features";
+import { SiteFooter } from "@/components/landing/footer";
 import { FooterBlur, Header, Hero } from "@/components/landing/hero";
 import { PricingSection } from "@/components/landing/pricing";
 import { ShowcaseSection } from "@/components/landing/showcase";
-import { TestimonialsSection } from "@/components/landing/testimonials";
 import { TrackingSection } from "@/components/landing/tracking";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -55,9 +56,10 @@ export function LandingPage() {
       <TrackingSection />
       <FeaturesSection />
       <ShowcaseSection />
-      <TestimonialsSection />
       <PricingSection />
       <FaqSection />
+      <ContactSection />
+      <SiteFooter />
     </div>
   );
 }

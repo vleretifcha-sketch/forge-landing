@@ -90,7 +90,7 @@ export function PricingSection() {
             </ul>
 
             <div className="mt-auto flex flex-col gap-4">
-              <Button href="mailto:hello@forge.app?subject=Founding%20member%20-%20Solo%20Coach" variant="solid-dark" className="w-full">
+              <Button href="#contact-founding" variant="solid-dark" className="w-full">
                 Claim my spot
               </Button>
               <p className="text-sm font-medium leading-[1.4] tracking-[-0.28px] text-muted">
@@ -101,13 +101,13 @@ export function PricingSection() {
             </div>
           </article>
 
-          <article className="relative flex flex-col justify-between gap-10 overflow-hidden rounded-3xl p-8 md:p-10">
+          <article className="relative flex min-h-[560px] flex-col justify-between gap-10 overflow-hidden rounded-3xl p-8 md:min-h-[640px] md:p-10 lg:min-h-0">
             <img
               src="/images/gym-hero.png"
               alt=""
               className="pointer-events-none absolute -inset-1 h-[calc(100%+8px)] w-[calc(100%+8px)] max-w-none object-cover object-[center_18%]"
             />
-            <div className="pointer-events-none absolute -inset-1 bg-black/35" />
+            <div className="pointer-events-none absolute -inset-1 bg-gradient-to-b from-black/80 via-black/40 to-black/45" />
             <div className="relative z-10 flex flex-col gap-4">
               <PlanBadge tone="dark">Multi-Coaches</PlanBadge>
               <h3 className="text-2xl font-bold tracking-[-0.48px] text-white">Managing a coaching team?</h3>
@@ -117,7 +117,7 @@ export function PricingSection() {
             </div>
 
             <div className="relative z-10 flex flex-col gap-3">
-              <Button href="mailto:hello@forge.app?subject=Discovery%20call%20-%20Multi-coach" variant="solid-white" className="w-full">
+              <Button href="#book" variant="solid-white" className="w-full">
                 Book a discovery call
               </Button>
               <p className="text-sm font-medium tracking-[-0.28px] text-white/70">20 min, no commitment.</p>

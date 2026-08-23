@@ -48,6 +48,14 @@ const buttonStyles: Record<ButtonVariant, string> = {
   chip: "border border-black/10 bg-page text-muted",
 };
 
+export function buttonClassName(variant: ButtonVariant, className?: string) {
+  return cx(
+    "inline-flex h-12 shrink-0 items-center justify-center gap-2.5 rounded-xl px-4 py-3 text-base font-bold tracking-[-0.32px] transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50",
+    buttonStyles[variant],
+    className,
+  );
+}
+
 export function Button({
   variant,
   className,
@@ -55,16 +63,22 @@ export function Button({
   ...props
 }: ComponentProps<"a"> & { variant: ButtonVariant }) {
   return (
-    <a
-      className={cx(
-        "inline-flex h-12 shrink-0 items-center justify-center gap-2.5 rounded-xl px-4 py-3 text-base font-bold tracking-[-0.32px] transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]",
-        buttonStyles[variant],
-        className,
-      )}
-      {...props}
-    >
+    <a className={buttonClassName(variant, className)} {...props}>
       {children}
     </a>
+  );
+}
+
+export function ActionButton({
+  variant,
+  className,
+  children,
+  ...props
+}: ComponentProps<"button"> & { variant: ButtonVariant }) {
+  return (
+    <button className={buttonClassName(variant, className)} {...props}>
+      {children}
+    </button>
   );
 }
 

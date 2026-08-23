@@ -7,7 +7,6 @@ import { Asset, Button, cx } from "@/components/landing/ui";
 const LINKS = [
   { href: "#features", label: "Features" },
   { href: "#use-case", label: "Use Case" },
-  { href: "#testimonials", label: "Testimonial" },
   { href: "#pricing", label: "Pricing" },
 ];
 
@@ -76,17 +75,20 @@ export function Header({ onDark = true }: { onDark?: boolean }) {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button
-              href="#faq"
-              variant={onDark ? "ghost-dark" : "ghost-light"}
-              className={cx(onDark && "shadow-none")}
-            >
-              Contact
-            </Button>
+            <div className="hidden md:block">
+              <Button
+                href="#contact"
+                variant={onDark ? "ghost-dark" : "ghost-light"}
+                className={cx(onDark && "shadow-none")}
+              >
+                Contact
+              </Button>
+            </div>
             <button
               type="button"
               className="flex size-12 items-center justify-center rounded-xl bg-white md:hidden"
-              aria-label="Open menu"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
               onClick={() => setOpen((v) => !v)}
             >
               <span className="font-bold text-ink">{open ? "×" : "☰"}</span>
@@ -105,6 +107,13 @@ export function Header({ onDark = true }: { onDark?: boolean }) {
                   {link.label}
                 </a>
               ))}
+              <a
+                href="#contact"
+                className="rounded-xl px-3 py-2 text-base font-bold text-ink"
+                onClick={() => setOpen(false)}
+              >
+                Contact
+              </a>
             </div>
           ) : null}
         </div>
@@ -115,19 +124,20 @@ export function Header({ onDark = true }: { onDark?: boolean }) {
 
 export function Hero() {
   return (
-    <section id="top" className="relative flex min-h-[100svh] flex-col overflow-hidden bg-ink">
-      <div className="pointer-events-none absolute inset-x-0 bottom-[-80px] h-[70%] overflow-hidden">
+    <section id="top" className="relative flex flex-col overflow-hidden bg-ink md:min-h-[100svh]">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[22%] overflow-hidden md:bottom-[-80px] md:h-[70%]">
         <img
           src="/images/hero-glow.svg"
           alt=""
           className="absolute left-1/2 top-0 h-full w-[140%] max-w-none -translate-x-1/2"
         />
       </div>
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[55%] bg-gradient-to-b from-black via-black/55 to-transparent md:h-[40%] md:via-black/35" />
 
-      <div className="relative mx-auto flex w-full max-w-[1728px] flex-1 flex-col items-center px-5 pt-[48px] md:px-[80px] md:pt-[75px]">
+      <div className="relative mx-auto flex w-full max-w-[1728px] flex-col items-center px-5 pt-[48px] md:flex-1 md:px-[80px] md:pt-[75px]">
         <div className="h-12 w-full max-w-[1125px] shrink-0" aria-hidden />
 
-        <div className="hero-copy my-auto flex max-w-[938px] flex-col items-center gap-6 py-16 md:gap-8 md:py-24">
+        <div className="hero-copy mb-12 mt-10 flex w-full max-w-[361px] flex-col items-center gap-6 py-0 md:my-auto md:max-w-[938px] md:gap-8 md:py-24">
           <div className="flex items-center gap-3 rounded-full border border-white/24 bg-white/12 py-1 pr-3 pl-1">
             <div className="flex h-6 w-12 items-center justify-center rounded-full bg-blue-badge">
               <span className="font-[family-name:var(--font-cabinet)] text-base font-bold tracking-[-0.32px] text-white">
@@ -137,21 +147,28 @@ export function Hero() {
             <p className="text-sm font-medium tracking-[-0.28px] text-white">A better way to coach</p>
           </div>
 
-          <h1 className="font-[family-name:var(--font-cabinet)] text-center text-[44px] font-medium leading-none tracking-[-1.92px] text-white md:text-[72px] lg:text-[96px]">
-            Your athletes deserve one place. Not five.
+          <h1 className="font-[family-name:var(--font-cabinet)] text-center text-[48px] font-medium leading-none tracking-[-0.96px] text-white md:text-[72px] md:tracking-[-1.92px] lg:text-[96px]">
+            <span className="md:hidden">
+              Your athletes
+              <br />
+              deserve one
+              <br />
+              place. Not five.
+            </span>
+            <span className="hidden md:inline">Your athletes deserve one place. Not five.</span>
           </h1>
 
-          <p className="max-w-[600px] text-center text-lg font-medium tracking-[-0.48px] text-white/60 md:text-2xl">
+          <p className="text-center text-base font-medium tracking-[-0.32px] text-white/60 md:max-w-[600px] md:text-2xl md:tracking-[-0.48px]">
             Replace the spreadsheets, the shared docs, and the five different apps — with one platform that&apos;s
             actually yours.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Button href="#product" variant="ghost-dark">
+          <div className="flex w-full flex-col gap-4 md:w-auto md:flex-row md:flex-wrap md:items-center md:justify-center">
+            <Button href="#product" variant="ghost-dark" className="w-full md:w-auto">
               <Asset src="/icons/play.svg" alt="" width={24} height={24} />
               Watch demo
             </Button>
-            <Button href="mailto:hello@forge.app" variant="solid-white">
+            <Button href="#contact" variant="solid-white" className="w-full md:w-auto">
               Get your own app
             </Button>
           </div>
@@ -160,9 +177,9 @@ export function Hero() {
 
       <div
         id="product"
-        className="relative mx-auto w-[min(1480px,86vw)] max-h-[min(38vh,460px)] shrink-0 overflow-hidden rounded-t-[30px] bg-white p-2.5 pb-0 md:p-3 md:pb-0"
+        className="relative mx-auto w-full max-h-[180px] overflow-hidden rounded-t-[20px] bg-white p-2 pb-0 md:w-[min(1480px,86vw)] md:max-h-[min(38vh,460px)] md:rounded-t-[30px] md:p-3 md:pb-0"
       >
-        <div className="hero-dashboard relative overflow-hidden rounded-t-[20px]" style={{ aspectRatio: "3306 / 1073" }}>
+        <div className="hero-dashboard relative overflow-hidden rounded-t-[16px] md:rounded-t-[20px]" style={{ aspectRatio: "3306 / 1073" }}>
           <img
             src="/images/dashboard.png"
             alt="Forge coach dashboard"

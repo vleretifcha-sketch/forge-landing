@@ -143,12 +143,13 @@ export function FeaturesSection() {
             </article>
           </div>
 
-          <article className="relative h-[420px] overflow-hidden rounded-3xl bg-black p-8 md:h-[478px] md:p-10">
+          <article className="relative flex h-[480px] flex-col overflow-hidden rounded-3xl bg-black p-10 md:h-[478px]">
             <img
               src="/images/metrics-bg.png"
               alt=""
-              className="absolute left-0 top-[-51%] h-[222%] w-[75%] max-w-none object-cover"
+              className="absolute inset-0 size-full object-cover object-[center_28%] md:inset-auto md:left-0 md:top-[-51%] md:h-[222%] md:w-[75%] md:max-w-none"
             />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black to-transparent md:hidden" />
             <div className="relative z-10 flex max-w-[258px] flex-col gap-3">
               <h3 className="text-2xl font-bold tracking-[-0.48px] text-white">Track every metrics</h3>
               <p className="text-base font-medium leading-[1.3] tracking-[-0.32px] text-white/60">
@@ -156,16 +157,25 @@ export function FeaturesSection() {
                 guess.
               </p>
             </div>
-            <Button href="mailto:hello@forge.app" variant="solid-white" className="relative z-10 mt-8">
+            <Button href="#contact" variant="solid-white" className="relative z-10 mt-8 w-full md:w-auto">
               Start Now
             </Button>
+            <div className="absolute bottom-[-170px] left-1/2 z-10 -translate-x-1/2 md:hidden">
+              <PhoneMockup
+                src="/images/phone-weight.png"
+                alt="Weight trends"
+                width={183}
+                height={378}
+                screenRadius={48}
+              />
+            </div>
             <div className="absolute right-[-20px] top-[40px] hidden md:block lg:right-[40px] lg:top-[80px]">
               <PhoneMockup src="/images/phone-weight.png" alt="Weight trends" screenRadius={48} />
             </div>
           </article>
 
           <div className="grid gap-4 lg:grid-cols-2">
-            <article className="relative h-[441px] overflow-hidden rounded-3xl bg-chip p-8 md:p-10">
+            <article className="relative h-[420px] overflow-hidden rounded-3xl bg-chip p-8 md:h-[441px] md:p-10">
               <div className="relative z-10 flex flex-col gap-3">
                 <h3 className="text-2xl font-bold tracking-[-0.48px] text-ink">Create, save diet plans and meals</h3>
                 <p className="text-base font-medium leading-[1.3] tracking-[-0.32px] text-muted">
@@ -173,16 +183,18 @@ export function FeaturesSection() {
                   your athlete just sees the one that applies today.
                 </p>
               </div>
-              <div className="absolute left-[72px] top-[214px] h-[294px] w-[401px] overflow-hidden rounded-[18.5px] max-md:left-6 max-md:w-[calc(100%-48px)]">
-                <img
-                  src="/images/diet-plan.png"
-                  alt="Diet plan"
-                  className="absolute left-[-4.43%] top-[-87.26%] h-[321.77%] w-[108.9%] max-w-none"
-                />
+              <div className="absolute bottom-[-88px] left-1/2 w-[min(401px,calc(100%-48px))] -translate-x-1/2 overflow-hidden rounded-[18.5px] md:bottom-auto md:left-[72px] md:top-[214px] md:w-[401px] md:translate-x-0">
+                <div className="relative aspect-[401/294] w-full">
+                  <img
+                    src="/images/diet-plan.png"
+                    alt="Diet plan"
+                    className="absolute left-[-4.43%] top-[-87.26%] h-[321.77%] w-[108.9%] max-w-none"
+                  />
+                </div>
               </div>
             </article>
 
-            <article className="relative h-[441px] overflow-hidden rounded-3xl bg-chip p-8 md:p-10">
+            <article className="relative h-[420px] overflow-hidden rounded-3xl bg-chip p-8 md:h-[441px] md:p-10">
               <div className="relative z-10 flex flex-col gap-3">
                 <h3 className="text-2xl font-bold tracking-[-0.48px] text-ink">Logged in real time, set by set</h3>
                 <p className="text-base font-medium leading-[1.3] tracking-[-0.32px] text-muted">
@@ -190,12 +202,14 @@ export function FeaturesSection() {
                   later.
                 </p>
               </div>
-              <div className="absolute bottom-0 left-1/2 h-[289px] w-[min(427px,calc(100%-48px))] -translate-x-1/2 overflow-hidden rounded-[18px]">
-                <img
-                  src="/images/workout-log.png"
-                  alt="Workout log"
-                  className="absolute inset-0 size-full object-cover object-top"
-                />
+              <div className="absolute bottom-[-88px] left-1/2 w-[min(427px,calc(100%-48px))] -translate-x-1/2 overflow-hidden rounded-[18px] md:bottom-0">
+                <div className="relative aspect-[427/289] w-full">
+                  <img
+                    src="/images/workout-log.png"
+                    alt="Workout log"
+                    className="absolute inset-0 size-full object-cover object-top"
+                  />
+                </div>
               </div>
             </article>
           </div>

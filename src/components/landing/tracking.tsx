@@ -201,35 +201,46 @@ export function TrackingSection() {
           ))}
         </div>
 
-        <div className="relative h-[640px] w-full overflow-hidden md:h-[807px]">
+        <div className="relative h-[520px] w-full overflow-hidden md:h-[807px]">
           <MarqueeRow
             items={ROW_ONE}
             direction="left"
-            className="absolute top-[120px] w-full md:top-[230px]"
+            className="absolute top-[110px] w-full md:top-[230px]"
           />
           <MarqueeRow
             items={ROW_TWO}
             direction="right"
-            className="absolute top-[280px] w-full md:top-[392px]"
+            className="absolute top-[250px] w-full md:top-[392px]"
           />
 
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-[1] w-[22%] bg-gradient-to-r from-page from-[12%] to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-[1] w-[22%] bg-gradient-to-l from-page from-[12%] to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-[1] w-8 bg-gradient-to-r from-page to-transparent md:w-[22%] md:from-[12%]" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-[1] w-8 bg-gradient-to-l from-page to-transparent md:w-[22%] md:from-[12%]" />
 
-          <div className="absolute left-1/2 top-[40px] z-10 -translate-x-1/2 md:top-[33px]">
-            <PhoneMockup
-              src={role === "athlete" ? "/images/phone-athlete.png" : "/images/phone-coach.png"}
-              alt={role === "athlete" ? "Athlete daily overview" : "Coach app"}
-              screenRadius={role === "athlete" ? 45 : 0}
-            />
+          <div className="absolute left-1/2 top-[32px] z-10 -translate-x-1/2 md:top-[33px]">
+            <div className="md:hidden">
+              <PhoneMockup
+                src={role === "athlete" ? "/images/phone-athlete.png" : "/images/phone-coach.png"}
+                alt={role === "athlete" ? "Athlete daily overview" : "Coach app"}
+                width={210}
+                height={434}
+                screenRadius={role === "athlete" ? 45 : 0}
+              />
+            </div>
+            <div className="hidden md:block">
+              <PhoneMockup
+                src={role === "athlete" ? "/images/phone-athlete.png" : "/images/phone-coach.png"}
+                alt={role === "athlete" ? "Athlete daily overview" : "Coach app"}
+                screenRadius={role === "athlete" ? 45 : 0}
+              />
+            </div>
           </div>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <Button href="#faq" variant="ghost-light">
+          <Button href="#contact" variant="ghost-light">
             Contact Us
           </Button>
-          <Button href="mailto:hello@forge.app" variant="solid-dark">
+          <Button href="#contact" variant="solid-dark">
             Get your own app
           </Button>
         </div>
