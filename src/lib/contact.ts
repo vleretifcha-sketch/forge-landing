@@ -81,3 +81,11 @@ export function formSubmitPayload(data: ContactPayload) {
     _captcha: "false",
   };
 }
+
+export function mailtoHref(data: ContactPayload) {
+  const params = new URLSearchParams({
+    subject: contactSubject(data),
+    body: contactTextBody(data),
+  });
+  return `mailto:${CONTACT_INBOX}?${params.toString()}`;
+}

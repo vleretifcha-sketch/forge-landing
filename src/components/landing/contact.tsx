@@ -3,7 +3,7 @@
 import Script from "next/script";
 import { useEffect, useState, type FormEvent } from "react";
 import { ActionButton, Container, SectionBadge, SectionTitle, cx } from "@/components/landing/ui";
-import { CONTACT_INBOX, formSubmitPayload, INTERESTS, type ContactPayload, type Interest } from "@/lib/contact";
+import { CONTACT_INBOX, formSubmitPayload, mailtoHref, INTERESTS, type ContactPayload, type Interest } from "@/lib/contact";
 
 const CALENDLY_URL =
   process.env.NEXT_PUBLIC_CALENDLY_URL ||
@@ -13,32 +13,29 @@ const FIELD =
   "w-full rounded-xl border border-black/10 bg-page px-4 text-base font-medium tracking-[-0.32px] text-ink outline-none transition-colors placeholder:text-muted/55 focus:border-blue";
 
 async function sendWithFormSubmit(data: ContactPayload) {
-  const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(CONTACT_INBOX)}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(formSubmitPayload(data)),
-  });
+  try {
+    const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(CONTACT_INBOX)}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(formSubmitPayload(data)),
+    });
 
-  const result = (await response.json().catch(() => null)) as
-    | { success?: string | boolean; message?: string }
-    | null;
+    const result = (await response.json().catch(() => null)) as
+      | { success?: string | boolean; message?: string }
+      | null;
 
-  const success = result?.success === true || result?.success === "true";
-  if (!response.ok || !success) {
-    const message = result?.message?.trim();
-    if (message && /activat/i.test(message)) {
-      return {
-        ok: false as const,
-        error: `Check ${CONTACT_INBOX} and click the FormSubmit activation link, then send again.`,
-      };
+    const success = result?.success === true || result?.success === "true";
+    if (response.ok && success) {
+      return { ok: true as const, via: "formsubmit" as const };
     }
-    return { ok: false as const, error: message || "Could not send the message. Try again." };
+  } catch {
+    // Fall through to mailto so the visitor can still send.
   }
 
-  return { ok: true as const };
+  return { ok: true as const, via: "mailto" as const };
 }
 
 function CalendlyEmbed({ url }: { url: string }) {
@@ -65,7 +62,7 @@ function FieldLabel({ htmlFor, children, hint }: { htmlFor: string; children: st
 
 export function ContactSection() {
   const [interest, setInterest] = useState<Interest>("founding");
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "mailto" | "error">("idle");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -109,9 +106,17 @@ export function ContactSection() {
           interest,
           message: String(data.message ?? ""),
         });
-        if (!sent.ok) {
-          setStatus("error");
-          setError(sent.error);
+        if (sent.via === "mailto") {
+          window.location.href = mailtoHref({
+            firstName: String(data.firstName ?? ""),
+            lastName: String(data.lastName ?? ""),
+            email: String(data.email ?? ""),
+            company: String(data.company ?? ""),
+            interest,
+            message: String(data.message ?? ""),
+          });
+          setStatus("mailto");
+          form.reset();
           return;
         }
       }
@@ -148,11 +153,15 @@ export function ContactSection() {
               </p>
             </div>
 
-            {status === "sent" ? (
+            {status === "sent" || status === "mailto" ? (
               <div className="flex flex-1 flex-col justify-center gap-3 rounded-2xl bg-page p-8">
-                <p className="text-2xl font-bold tracking-[-0.48px] text-ink">Message sent.</p>
+                <p className="text-2xl font-bold tracking-[-0.48px] text-ink">
+                  {status === "mailto" ? "Finish in your email app." : "Message sent."}
+                </p>
                 <p className="text-base font-medium leading-[1.4] tracking-[-0.32px] text-muted">
-                  We’ll get back to you at the email you left.
+                  {status === "mailto"
+                    ? "A draft should open with your message. Send it from there and we’ll get back to you."
+                    : "We’ll get back to you at the email you left."}
                 </p>
                 <ActionButton variant="ghost-light" className="mt-4 w-fit" type="button" onClick={() => setStatus("idle")}>
                   Send another
