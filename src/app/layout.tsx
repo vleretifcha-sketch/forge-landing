@@ -7,10 +7,6 @@ export const metadata: Metadata = {
   description:
     "Replace the spreadsheets, the shared docs, and the five different apps — with one platform that's actually yours.",
   applicationName: "Forge",
-  icons: {
-    icon: [{ url: "/favicon.png", type: "image/png", sizes: "192x192" }],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
-  },
 };
 
 export const viewport: Viewport = {
