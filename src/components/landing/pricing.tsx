@@ -72,7 +72,10 @@ export function PricingSection() {
               </p>
               <div className="flex flex-wrap items-end gap-x-3 gap-y-2">
                 <p className="text-[48px] font-bold leading-none tracking-[-1.2px] text-ink md:text-[56px]">
-                  49 AUD
+                  <span className="price-counter inline-block min-w-[1.35em] tabular-nums" data-target="49">
+                    49
+                  </span>{" "}
+                  AUD
                 </p>
                 <span className="pb-1 text-lg font-medium leading-none tracking-[-0.36px] text-muted">
                   /month · Locked for life

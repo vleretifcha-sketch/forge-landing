@@ -108,7 +108,7 @@ export function TrackingSection() {
   const [role, setRole] = useState<"coach" | "athlete">("athlete");
 
   return (
-    <section className="relative z-10 mt-[72px] flex w-full flex-col items-center gap-[72px] md:mt-[135px]">
+    <section className="mt-[72px] flex w-full flex-col items-center gap-[72px] md:mt-[135px]">
       <div className="flex max-w-[935px] flex-col items-center gap-12 px-5">
         <h2 className="max-w-[935px] text-center text-[32px] font-bold leading-normal tracking-[-1.04px] text-ink md:text-[52px]">
           Everything you track{" "}

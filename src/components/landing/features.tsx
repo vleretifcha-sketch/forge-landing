@@ -8,8 +8,7 @@ function HoursLeftRing() {
   const center = size / 2;
   const circumference = 2 * Math.PI * radius;
   const progress = 0.72;
-  const dash = circumference * progress;
-  const gap = circumference - dash;
+  const rest = circumference * (1 - progress);
 
   return (
     <div className="relative" style={{ width: size, height: size }}>
@@ -21,14 +20,17 @@ function HoursLeftRing() {
       >
         <circle cx={center} cy={center} r={radius} stroke="#E8E8E8" strokeWidth={stroke} />
         <circle
+          className="hours-ring-progress"
           cx={center}
           cy={center}
           r={radius}
           stroke="#0023FF"
           strokeWidth={stroke}
           strokeLinecap="round"
-          strokeDasharray={`${dash} ${gap}`}
+          strokeDasharray={circumference}
+          strokeDashoffset={rest}
           transform={`rotate(-90 ${center} ${center})`}
+          data-progress={progress}
           style={{ filter: "drop-shadow(0 0 14px rgba(0, 26, 255, 0.55))" }}
         />
       </svg>
@@ -97,7 +99,7 @@ export function FeaturesSection() {
               </div>
             </article>
 
-            <article className="relative flex h-full min-h-[520px] flex-col gap-8 overflow-hidden rounded-3xl p-8 md:min-h-[574px] md:p-10">
+            <article className="relative flex h-full min-h-[580px] flex-col gap-8 overflow-hidden rounded-3xl p-8 md:min-h-[640px] md:p-10">
               <img
                 src="/images/day-glance-bg.png"
                 alt=""
@@ -109,9 +111,9 @@ export function FeaturesSection() {
                   One dashboard shows what actually needs you — pending check-ins, open requests, nothing else.
                 </p>
               </div>
-              <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-white/20">
+              <div className="day-glance-card relative isolate flex min-h-0 flex-1 flex-col rounded-2xl border border-white/20">
                 <div
-                  className="pointer-events-none absolute inset-0"
+                  className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]"
                   style={{
                     background: "rgba(15, 17, 21, 0.55)",
                     backdropFilter: "blur(24px)",
@@ -119,27 +121,27 @@ export function FeaturesSection() {
                   }}
                 />
                 <div className="relative z-10 flex flex-col gap-2 p-4">
-                  <p className="text-lg font-medium tracking-[-0.36px] text-white">Good Morning Jake!</p>
-                  <p className="text-base font-medium tracking-[-0.32px] text-white/60">Tuesday, 25 Aug</p>
+                  <p className="day-glance-hello text-lg font-medium tracking-[-0.36px] text-white">Good Morning Jake!</p>
+                  <p className="day-glance-date text-base font-medium tracking-[-0.32px] text-white/60">Tuesday, 25 Aug</p>
                 </div>
-                <div className="relative z-10 h-px w-full shrink-0 bg-white/20" />
-                <div className="relative z-10 flex flex-1 flex-col gap-4 overflow-hidden px-4 py-6">
+                <div className="day-glance-rule relative z-10 h-px w-full shrink-0 origin-left bg-white/20" />
+                <div className="relative z-10 flex flex-1 flex-col gap-4 px-4 py-6">
                   {[
                     ["Pending Check-ins", "3"],
                     ["Check-in due", "2"],
                     ["Pending subscriptions", "2"],
                     ["Open requests", "7"],
                   ].map(([label, count], i, arr) => (
-                    <div key={label}>
+                    <div key={label} className="day-glance-row">
                       <div className="flex items-center justify-between">
-                        <span className="flex h-8 items-center rounded-full border border-white/20 bg-white/20 px-2.5 font-[family-name:var(--font-cabinet)] text-base font-bold tracking-[-0.32px] text-white">
+                        <span className="day-glance-chip flex h-8 items-center rounded-full border border-white/20 bg-white/20 px-2.5 font-[family-name:var(--font-cabinet)] text-base font-bold tracking-[-0.32px] text-white">
                           {label}
                         </span>
-                        <span className="font-[family-name:var(--font-cabinet)] text-base font-bold tracking-[-0.32px] text-white">
+                        <span className="day-glance-count font-[family-name:var(--font-cabinet)] text-base font-bold tracking-[-0.32px] text-white">
                           {count}
                         </span>
                       </div>
-                      {i < arr.length - 1 ? <div className="mt-4 h-px w-full bg-white/20" /> : null}
+                      {i < arr.length - 1 ? <div className="day-glance-rule mt-4 h-px w-full origin-left bg-white/20" /> : null}
                     </div>
                   ))}
                 </div>
@@ -147,7 +149,7 @@ export function FeaturesSection() {
             </article>
           </div>
 
-          <article className="relative flex h-[480px] flex-col overflow-hidden rounded-3xl bg-black p-10 md:h-[478px]">
+          <article className="metrics-phone-card relative flex h-[480px] flex-col overflow-hidden rounded-3xl bg-black p-10 md:h-[478px]">
             <img
               src="/images/metrics-bg.png"
               alt=""
@@ -165,16 +167,20 @@ export function FeaturesSection() {
               Start Now
             </Button>
             <div className="absolute bottom-[-170px] left-1/2 z-10 -translate-x-1/2 md:hidden">
-              <PhoneMockup
-                src="/images/phone-weight.png"
-                alt="Weight trends"
-                width={183}
-                height={378}
-                screenRadius={48}
-              />
+              <div className="metrics-phone">
+                <PhoneMockup
+                  src="/images/phone-weight.png"
+                  alt="Weight trends"
+                  width={183}
+                  height={378}
+                  screenRadius={48}
+                />
+              </div>
             </div>
             <div className="absolute right-[-20px] top-[40px] hidden md:block lg:right-[40px] lg:top-[80px]">
-              <PhoneMockup src="/images/phone-weight.png" alt="Weight trends" screenRadius={48} />
+              <div className="metrics-phone">
+                <PhoneMockup src="/images/phone-weight.png" alt="Weight trends" screenRadius={48} />
+              </div>
             </div>
           </article>
 
