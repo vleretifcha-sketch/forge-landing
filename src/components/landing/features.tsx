@@ -1,5 +1,5 @@
 import { PhoneMockup } from "@/components/landing/phone-mockup";
-import { Asset, Button, Container, SectionBadge, SectionTitle } from "@/components/landing/ui";
+import { Button, Container, SectionBadge, SectionTitle } from "@/components/landing/ui";
 
 function HoursLeftRing() {
   const size = 139.577;
@@ -109,13 +109,21 @@ export function FeaturesSection() {
                   One dashboard shows what actually needs you — pending check-ins, open requests, nothing else.
                 </p>
               </div>
-              <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-white/20 [clip-path:inset(0_round_16px)]">
-                <div className="flex flex-col gap-2 rounded-t-2xl bg-black/60 p-4 backdrop-blur-[12px]">
+              <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-white/20">
+                <div
+                  className="pointer-events-none absolute inset-0"
+                  style={{
+                    background: "rgba(15, 17, 21, 0.55)",
+                    backdropFilter: "blur(24px)",
+                    WebkitBackdropFilter: "blur(24px)",
+                  }}
+                />
+                <div className="relative z-10 flex flex-col gap-2 p-4">
                   <p className="text-lg font-medium tracking-[-0.36px] text-white">Good Morning Jake!</p>
                   <p className="text-base font-medium tracking-[-0.32px] text-white/60">Tuesday, 25 Aug</p>
                 </div>
-                <div className="h-px w-full shrink-0 bg-white/20" />
-                <div className="flex flex-1 flex-col gap-4 overflow-hidden rounded-b-2xl bg-black/60 px-4 py-6 backdrop-blur-[12px]">
+                <div className="relative z-10 h-px w-full shrink-0 bg-white/20" />
+                <div className="relative z-10 flex flex-1 flex-col gap-4 overflow-hidden px-4 py-6">
                   {[
                     ["Pending Check-ins", "3"],
                     ["Check-in due", "2"],
@@ -124,18 +132,14 @@ export function FeaturesSection() {
                   ].map(([label, count], i, arr) => (
                     <div key={label}>
                       <div className="flex items-center justify-between">
-                        <span className="flex h-8 items-center rounded-full border border-black/10 bg-white/30 px-2.5 font-[family-name:var(--font-cabinet)] text-base font-bold tracking-[-0.32px] text-white">
+                        <span className="flex h-8 items-center rounded-full border border-white/20 bg-white/20 px-2.5 font-[family-name:var(--font-cabinet)] text-base font-bold tracking-[-0.32px] text-white">
                           {label}
                         </span>
                         <span className="font-[family-name:var(--font-cabinet)] text-base font-bold tracking-[-0.32px] text-white">
                           {count}
                         </span>
                       </div>
-                      {i < arr.length - 1 ? (
-                        <div className="mt-4 h-px w-full bg-white/20">
-                          <Asset src="/icons/line.svg" alt="" width={475} height={1} className="hidden" />
-                        </div>
-                      ) : null}
+                      {i < arr.length - 1 ? <div className="mt-4 h-px w-full bg-white/20" /> : null}
                     </div>
                   ))}
                 </div>
@@ -157,7 +161,7 @@ export function FeaturesSection() {
                 guess.
               </p>
             </div>
-            <Button href="#contact" variant="solid-white" className="relative z-10 mt-8 w-full md:w-auto">
+            <Button href="#contact" variant="solid-white" className="relative z-10 mt-8 w-full md:w-fit md:self-start">
               Start Now
             </Button>
             <div className="absolute bottom-[-170px] left-1/2 z-10 -translate-x-1/2 md:hidden">
@@ -202,7 +206,7 @@ export function FeaturesSection() {
                   later.
                 </p>
               </div>
-              <div className="absolute bottom-[-88px] left-1/2 w-[min(427px,calc(100%-48px))] -translate-x-1/2 overflow-hidden rounded-[18px] md:bottom-0">
+              <div className="absolute bottom-[-88px] left-1/2 w-[min(427px,calc(100%-48px))] -translate-x-1/2 overflow-hidden rounded-[18px] md:bottom-[-72px]">
                 <div className="relative aspect-[427/289] w-full">
                   <img
                     src="/images/workout-log.png"

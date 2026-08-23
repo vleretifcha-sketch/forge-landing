@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { PhoneMockup } from "@/components/landing/phone-mockup";
 import { Asset, Button, cx } from "@/components/landing/ui";
 
@@ -73,7 +73,7 @@ function PhotoTile({ src }: { src: string }) {
 
 function MetricRow({ items, clone = false }: { items: Metric[]; clone?: boolean }) {
   return (
-    <div className="flex shrink-0 items-center gap-[19px]" aria-hidden={clone || undefined}>
+    <div className="flex shrink-0 items-center gap-[19px] pr-[19px]" aria-hidden={clone || undefined}>
       {items.map((metric, i) => (
         <div key={`${metric.label}-${i}`} className="flex items-center gap-4">
           <IconTile metric={metric} />
@@ -93,54 +93,11 @@ function MarqueeRow({
   direction: "left" | "right";
   className?: string;
 }) {
-  const track = useRef<HTMLDivElement>(null);
-  const [shift, setShift] = useState(0);
-
-  useLayoutEffect(() => {
-    const el = track.current;
-    if (!el) return;
-
-    const measure = () => {
-      const first = el.children[0] as HTMLElement | undefined;
-      if (!first) return;
-      const gap = Number.parseFloat(getComputedStyle(el).columnGap || getComputedStyle(el).gap) || 0;
-      const next = first.offsetWidth + gap;
-      if (next < 1) return;
-      setShift((prev) => (Math.abs(prev + next) < 1 ? prev : -next));
-    };
-
-    measure();
-
-    const images = Array.from(el.querySelectorAll("img"));
-    images.forEach((img) => {
-      if (!img.complete) img.addEventListener("load", measure);
-    });
-
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-
-    return () => {
-      images.forEach((img) => img.removeEventListener("load", measure));
-      ro.disconnect();
-    };
-  }, [direction]);
-
-  const duration = shift < 0 ? Math.abs(shift) / 48 : 0;
-
   return (
-    <div className={cx("min-h-[146px]", className)}>
-      <div
-        ref={track}
-        className="marquee-track flex w-max items-center gap-[19px] py-12"
-        style={{
-          marginBlock: "-3rem",
-          ["--marquee-shift" as string]: `${shift}px`,
-          animationDuration: duration ? `${duration}s` : undefined,
-          animationDirection: direction === "left" ? "normal" : "reverse",
-          animationPlayState: duration ? "running" : "paused",
-        }}
-      >
+    <div className={cx("left-0 -my-10 w-full overflow-hidden py-10", className)}>
+      <div className={cx("marquee-track flex w-max items-center", direction === "right" && "marquee-track-reverse")}>
         <MetricRow items={items} />
+        <MetricRow items={items} clone />
         <MetricRow items={items} clone />
       </div>
     </div>

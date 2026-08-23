@@ -56,7 +56,7 @@ export function Header({ onDark = true }: { onDark?: boolean }) {
   return (
     <header className="fixed inset-x-0 top-0 z-50">
       <ProgressiveBlur edge="top" />
-      <div className="relative mx-auto flex w-full max-w-[1728px] justify-center px-5 pt-[48px] md:px-[80px] md:pt-[75px]">
+      <div className="relative mx-auto flex w-full max-w-[1728px] justify-center px-5 pt-4 md:px-[80px] md:pt-[75px]">
         <div className="relative flex w-full max-w-[1125px] items-center justify-between gap-3">
           <a
             href="#top"
@@ -125,7 +125,7 @@ export function Header({ onDark = true }: { onDark?: boolean }) {
 export function Hero() {
   return (
     <section id="top" className="relative flex flex-col overflow-hidden bg-ink md:min-h-[100svh]">
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[22%] overflow-hidden md:bottom-[-80px] md:h-[70%]">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[22%] overflow-hidden md:bottom-[-160px] md:h-[70%]">
         <img
           src="/images/hero-glow.svg"
           alt=""
@@ -134,7 +134,7 @@ export function Hero() {
       </div>
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[55%] bg-gradient-to-b from-black via-black/55 to-transparent md:h-[40%] md:via-black/35" />
 
-      <div className="relative mx-auto flex w-full max-w-[1728px] flex-col items-center px-5 pt-[48px] md:flex-1 md:px-[80px] md:pt-[75px]">
+      <div className="relative mx-auto flex w-full max-w-[1728px] flex-col items-center px-5 pt-4 md:flex-1 md:px-[80px] md:pt-[75px]">
         <div className="h-12 w-full max-w-[1125px] shrink-0" aria-hidden />
 
         <div className="hero-copy mb-12 mt-10 flex w-full max-w-[361px] flex-col items-center gap-6 py-0 md:my-auto md:max-w-[938px] md:gap-8 md:py-24">
