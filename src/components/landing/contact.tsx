@@ -3,7 +3,7 @@
 import Script from "next/script";
 import { useEffect, useState, type FormEvent } from "react";
 import { ActionButton, Container, SectionBadge, SectionTitle, cx } from "@/components/landing/ui";
-import { INTERESTS, type Interest } from "@/lib/contact";
+import { CONTACT_INBOX, formSubmitPayload, INTERESTS, type ContactPayload, type Interest } from "@/lib/contact";
 
 const CALENDLY_URL =
   process.env.NEXT_PUBLIC_CALENDLY_URL ||
@@ -11,6 +11,35 @@ const CALENDLY_URL =
 
 const FIELD =
   "w-full rounded-xl border border-black/10 bg-page px-4 text-base font-medium tracking-[-0.32px] text-ink outline-none transition-colors placeholder:text-muted/55 focus:border-blue";
+
+async function sendWithFormSubmit(data: ContactPayload) {
+  const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(CONTACT_INBOX)}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(formSubmitPayload(data)),
+  });
+
+  const result = (await response.json().catch(() => null)) as
+    | { success?: string | boolean; message?: string }
+    | null;
+
+  const success = result?.success === true || result?.success === "true";
+  if (!response.ok || !success) {
+    const message = result?.message?.trim();
+    if (message && /activat/i.test(message)) {
+      return {
+        ok: false as const,
+        error: `Check ${CONTACT_INBOX} and click the FormSubmit activation link, then send again.`,
+      };
+    }
+    return { ok: false as const, error: message || "Could not send the message. Try again." };
+  }
+
+  return { ok: true as const };
+}
 
 function CalendlyEmbed({ url }: { url: string }) {
   return (
@@ -64,12 +93,29 @@ export function ContactSection() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...data, interest }),
       });
-      const payload = (await response.json()) as { ok?: boolean; error?: string };
+      const payload = (await response.json()) as { ok?: boolean; error?: string; via?: string };
       if (!response.ok) {
         setStatus("error");
         setError(payload.error || "Could not send the message.");
         return;
       }
+
+      if (payload.via === "formsubmit") {
+        const sent = await sendWithFormSubmit({
+          firstName: String(data.firstName ?? ""),
+          lastName: String(data.lastName ?? ""),
+          email: String(data.email ?? ""),
+          company: String(data.company ?? ""),
+          interest,
+          message: String(data.message ?? ""),
+        });
+        if (!sent.ok) {
+          setStatus("error");
+          setError(sent.error);
+          return;
+        }
+      }
+
       setStatus("sent");
       form.reset();
     } catch {

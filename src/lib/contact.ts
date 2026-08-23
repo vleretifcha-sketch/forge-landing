@@ -1,4 +1,4 @@
-export const INTERESTS = ["founding", "multi"] as const;
+export const CONTACT_INBOX = process.env.NEXT_PUBLIC_CONTACT_TO ?? "gustdesign.agency@gmail.com";
 
 export type Interest = (typeof INTERESTS)[number];
 
@@ -49,4 +49,33 @@ export function parseContactPayload(input: unknown): { ok: true; data: ContactPa
 
 export function interestLabel(interest: Interest) {
   return interest === "founding" ? "Founding Member" : "Multi-coaches";
+}
+
+export function contactSubject(data: ContactPayload) {
+  return `Forge — ${interestLabel(data.interest)} — ${data.firstName} ${data.lastName}`;
+}
+
+export function contactTextBody(data: ContactPayload) {
+  return [
+    `Name: ${data.firstName} ${data.lastName}`,
+    `Email: ${data.email}`,
+    `Company: ${data.company || "—"}`,
+    `Interest: ${interestLabel(data.interest)}`,
+    "",
+    data.message,
+  ].join("\n");
+}
+
+export function formSubmitPayload(data: ContactPayload) {
+  return {
+    name: `${data.firstName} ${data.lastName}`,
+    email: data.email,
+    company: data.company || "—",
+    interest: interestLabel(data.interest),
+    message: contactTextBody(data),
+    _subject: contactSubject(data),
+    _replyto: data.email,
+    _template: "table",
+    _captcha: "false",
+  };
 }

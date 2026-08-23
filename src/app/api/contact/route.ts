@@ -1,13 +1,18 @@
 import { NextResponse } from "next/server";
-import { interestLabel, parseContactPayload, type ContactPayload } from "@/lib/contact";
+import {
+  CONTACT_INBOX,
+  contactSubject,
+  contactTextBody,
+  parseContactPayload,
+  type ContactPayload,
+} from "@/lib/contact";
 
 const WINDOW_MS = 60 * 60 * 1000;
 const MAX_PER_WINDOW = 5;
-const DEFAULT_INBOX = "gustdesign.agency@gmail.com";
 const hits = new Map<string, number[]>();
 
 function inbox() {
-  return process.env.CONTACT_TO ?? DEFAULT_INBOX;
+  return process.env.CONTACT_TO ?? CONTACT_INBOX;
 }
 
 function clientIp(request: Request) {
@@ -27,22 +32,6 @@ function tooMany(ip: string) {
   return false;
 }
 
-function emailBody(data: ContactPayload) {
-  const lines = [
-    `Name: ${data.firstName} ${data.lastName}`,
-    `Email: ${data.email}`,
-    `Company: ${data.company || "—"}`,
-    `Interest: ${interestLabel(data.interest)}`,
-    "",
-    data.message,
-  ];
-  return lines.join("\n");
-}
-
-function subject(data: ContactPayload) {
-  return `Forge — ${interestLabel(data.interest)} — ${data.firstName} ${data.lastName}`;
-}
-
 async function sendWithResend(data: ContactPayload) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return "missing" as const;
@@ -59,43 +48,14 @@ async function sendWithResend(data: ContactPayload) {
       from,
       to: [inbox()],
       reply_to: data.email,
-      subject: subject(data),
-      text: emailBody(data),
+      subject: contactSubject(data),
+      text: contactTextBody(data),
     }),
   });
 
   if (!response.ok) {
     const detail = await response.text();
     console.error("[contact] Resend error", response.status, detail);
-    return "error" as const;
-  }
-
-  return "sent" as const;
-}
-
-async function sendWithFormSubmit(data: ContactPayload) {
-  const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(inbox())}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      name: `${data.firstName} ${data.lastName}`,
-      email: data.email,
-      company: data.company || "—",
-      interest: interestLabel(data.interest),
-      message: data.message,
-      _subject: subject(data),
-      _replyto: data.email,
-      _template: "table",
-      _captcha: "false",
-    }),
-  });
-
-  if (!response.ok) {
-    const detail = await response.text();
-    console.error("[contact] FormSubmit error", response.status, detail);
     return "error" as const;
   }
 
@@ -127,11 +87,12 @@ export async function POST(request: Request) {
   }
 
   const viaResend = await sendWithResend(parsed.data);
-  const result = viaResend === "missing" ? await sendWithFormSubmit(parsed.data) : viaResend;
-
-  if (result === "sent") {
+  if (viaResend === "sent") {
     return NextResponse.json({ ok: true });
   }
+  if (viaResend === "error") {
+    return NextResponse.json({ error: "Could not send the message. Try again." }, { status: 502 });
+  }
 
-  return NextResponse.json({ error: "Could not send the message. Try again." }, { status: 502 });
+  return NextResponse.json({ ok: true, via: "formsubmit" });
 }
