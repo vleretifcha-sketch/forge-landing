@@ -6,7 +6,7 @@ import { ActionButton, Asset, Button, cx } from "@/components/landing/ui";
 
 const LINKS = [
   { href: "#features", label: "Features" },
-  { href: "#use-case", label: "Use Case" },
+  { href: "#demo", label: "Demo" },
   { href: "#pricing", label: "Pricing" },
 ];
 

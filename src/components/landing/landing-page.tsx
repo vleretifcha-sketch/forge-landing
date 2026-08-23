@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ContactSection } from "@/components/landing/contact";
+import { DemoSection } from "@/components/landing/demo";
 import { FaqSection } from "@/components/landing/faq";
 import { FeaturesSection } from "@/components/landing/features";
 import { SiteFooter } from "@/components/landing/footer";
@@ -85,6 +86,22 @@ export function LandingPage() {
         });
       }
 
+      const demoVideo = gsap.utils.toArray<HTMLElement>(".demo-video")[0];
+      if (demoVideo) {
+        gsap.from(demoVideo, {
+          y: 36,
+          opacity: 0,
+          duration: 0.9,
+          ease: "power3.out",
+          immediateRender: true,
+          scrollTrigger: {
+            trigger: demoVideo,
+            start: "top 85%",
+            once: true,
+          },
+        });
+      }
+
       const metricsCard = gsap.utils.toArray<HTMLElement>(".metrics-phone-card")[0];
       if (metricsCard) {
         gsap.from(".metrics-phone", {
@@ -135,6 +152,7 @@ export function LandingPage() {
       <Hero />
       <TrackingSection />
       <FeaturesSection />
+      <DemoSection />
       <ShowcaseSection />
       <PricingSection />
       <FaqSection />
