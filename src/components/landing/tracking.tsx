@@ -15,7 +15,6 @@ type Metric = {
 };
 
 const ROW_ONE: Metric[] = [
-  { label: "PEDs", icon: "/icons/dna.svg", color: "#0023ff", glow: "rgba(0,35,255,0.4)", photo: "/images/tile-peds.jpg" },
   { label: "Supps", icon: "/icons/file.svg", color: "#0023ff", glow: "rgba(0,35,255,0.4)", photo: "/images/tile-supps.jpg" },
   { label: "Bloodwork", icon: "/icons/water.svg", color: "#9d00ff", glow: "rgba(115,0,255,0.4)", photo: "/images/tile-bloodwork.jpg" },
   { label: "Check-ins", icon: "/icons/file.svg", color: "#0023ff", glow: "rgba(0,35,255,0.4)", photo: "/images/tile-checkins.jpg" },
