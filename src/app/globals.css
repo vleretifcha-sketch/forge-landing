@@ -75,6 +75,56 @@ a {
   animation-direction: reverse;
 }
 
+.legal-copy {
+  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.32px;
+  line-height: 1.55;
+}
+
+.legal-copy h2 {
+  color: var(--ink);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.48px;
+  line-height: 1.25;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.legal-copy > h2:first-child {
+  margin-top: 0;
+}
+
+.legal-copy p + p,
+.legal-copy ul + p,
+.legal-copy p + ul {
+  margin-top: 0.9rem;
+}
+
+.legal-copy ul {
+  list-style: disc;
+  margin: 0.9rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.legal-copy strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.legal-copy li + li {
+  margin-top: 0.45rem;
+}
+
+.legal-copy a {
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

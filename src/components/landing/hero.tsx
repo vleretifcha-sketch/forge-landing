@@ -5,9 +5,9 @@ import { ForgeLogo } from "@/components/landing/icons";
 import { ActionButton, Asset, Button, cx } from "@/components/landing/ui";
 
 const LINKS = [
-  { href: "#features", label: "Features" },
-  { href: "#demo", label: "Demo" },
-  { href: "#pricing", label: "Pricing" },
+  { href: "/#features", label: "Features" },
+  { href: "/#demo", label: "Demo" },
+  { href: "/#pricing", label: "Pricing" },
 ];
 
 const BLUR_LAYERS = [
@@ -94,7 +94,14 @@ function WatchDemo() {
             >
               ×
             </button>
-            <video src="/videos/demo.mp4" controls autoPlay playsInline className="max-h-[85vh] w-full bg-black" />
+            <video
+              src="/videos/demo.mp4"
+              controls
+              muted
+              autoPlay
+              playsInline
+              className="max-h-[85vh] w-full bg-black"
+            />
           </div>
         </div>
       ) : null}
@@ -111,7 +118,7 @@ export function Header({ onDark = true }: { onDark?: boolean }) {
       <div className="relative mx-auto flex w-full max-w-[1728px] justify-center px-5 pt-4 md:px-[80px] md:pt-[75px]">
         <div className="relative flex w-full max-w-[1125px] items-center justify-between gap-3">
           <a
-            href="#top"
+            href="/"
             aria-label="Forge"
             className="flex h-12 shrink-0 items-center rounded-xl bg-white px-3.5 text-ink"
           >
@@ -129,7 +136,7 @@ export function Header({ onDark = true }: { onDark?: boolean }) {
           <div className="flex items-center gap-2">
             <div className="hidden md:block">
               <Button
-                href="#contact"
+                href="/#contact"
                 variant={onDark ? "ghost-dark" : "ghost-light"}
                 className={cx(onDark && "shadow-none")}
               >
@@ -160,7 +167,7 @@ export function Header({ onDark = true }: { onDark?: boolean }) {
                 </a>
               ))}
               <a
-                href="#contact"
+                href="/#contact"
                 className="rounded-xl px-3 py-2 text-base font-bold text-ink"
                 onClick={() => setOpen(false)}
               >

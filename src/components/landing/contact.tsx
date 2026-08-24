@@ -242,6 +242,18 @@ export function ContactSection() {
                   </p>
                 ) : null}
 
+                <p className="text-xs font-medium leading-[1.4] tracking-[-0.24px] text-muted">
+                  By sending, you agree to the{" "}
+                  <a href="/terms" className="font-bold text-ink underline underline-offset-2">
+                    Terms of Sale
+                  </a>{" "}
+                  and{" "}
+                  <a href="/privacy" className="font-bold text-ink underline underline-offset-2">
+                    Privacy Policy
+                  </a>
+                  .
+                </p>
+
                 <ActionButton variant="solid-dark" className="mt-auto w-full" type="submit" disabled={status === "sending"}>
                   {status === "sending" ? "Sending…" : "Send"}
                 </ActionButton>

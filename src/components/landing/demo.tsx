@@ -17,6 +17,7 @@ export function DemoSection() {
           <video
             src="/videos/demo.mp4"
             controls
+            muted
             playsInline
             preload="metadata"
             className="aspect-[1920/1202] w-full bg-ink"
